@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EmployeeService {
@@ -43,10 +46,28 @@ public class EmployeeService {
         return this.employees;
     }
 
-    public Employee addEmployee(Employee employee){
+    public void addEmployee(Employee employee){
         employee.setId(this.id);
         this.id++;
-        return employee;
+        employees.add(employee);
+    }
+
+    public void deleteEmployeeById(Long id){
+        employees.removeIf(s -> s.getId() == id);
+    }
+
+    public void EditEmployeeById(Employee newEmployee,Long id){
+        Optional<Employee> existingEmployee = employees.stream().filter(e -> e.getId() == id).findFirst();
+        if (existingEmployee.isPresent()){
+            Employee existingEmployeeWithExistence = employees.stream().filter(e -> e.getId() == id).findFirst().get();
+            existingEmployeeWithExistence.setAge(newEmployee.getAge());
+            existingEmployeeWithExistence.setGender(newEmployee.getGender());
+            existingEmployeeWithExistence.setName(newEmployee.getName());
+        }else {
+            addEmployee(newEmployee);
+        }
+
+
     }
 
 

@@ -33,8 +33,16 @@ public class EmployeesResource {
     }
 
     @PostMapping(produces = {"application/json"})
-    public Employee setterMessage1(@RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
+    public void addEmployee(@RequestBody Employee employee) {
+        employeeService.addEmployee(employee);
+    }
+    @DeleteMapping(value = "/{id}",produces = {"application/json"})
+    public void deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployeeById(id);
+    }
+    @PutMapping(value = "/{id}",produces = {"application/json"})
+    public void EditEmployee(@RequestBody Employee employee,@PathVariable Long id) {
+            employeeService.EditEmployeeById(employee,id);
     }
 
 }
